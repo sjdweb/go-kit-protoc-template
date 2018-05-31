@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/go-kit/kit/endpoint"
-	pb "github.com/moul/protoc-gen-gotemplate/examples/go-kit/services/user/gen/pb"
+	pb "github.com/sjdweb/go-kit-protoc-template/services/user/gen/pb"
 	oldcontext "golang.org/x/net/context"
 )
 
@@ -24,7 +24,7 @@ type Endpoints struct {
 func (e *Endpoints) CreateUser(ctx oldcontext.Context, in *pb.CreateUserRequest) (*pb.CreateUserResponse, error) {
 	out, err := e.CreateUserEndpoint(ctx, in)
 	if err != nil {
-		return &pb.CreateUserResponse{ErrMsg: err.Error()}, err
+		return &pb.CreateUserResponse{Err: err.Error()}, err
 	}
 	return out.(*pb.CreateUserResponse), err
 }
@@ -32,7 +32,7 @@ func (e *Endpoints) CreateUser(ctx oldcontext.Context, in *pb.CreateUserRequest)
 func (e *Endpoints) GetUser(ctx oldcontext.Context, in *pb.GetUserRequest) (*pb.GetUserResponse, error) {
 	out, err := e.GetUserEndpoint(ctx, in)
 	if err != nil {
-		return &pb.GetUserResponse{ErrMsg: err.Error()}, err
+		return &pb.GetUserResponse{Err: err.Error()}, err
 	}
 	return out.(*pb.GetUserResponse), err
 }
@@ -42,7 +42,7 @@ func MakeCreateUserEndpoint(svc pb.UserServiceServer) endpoint.Endpoint {
 		req := request.(*pb.CreateUserRequest)
 		rep, err := svc.CreateUser(ctx, req)
 		if err != nil {
-			return &pb.CreateUserResponse{ErrMsg: err.Error()}, err
+			return &pb.CreateUserResponse{Err: err.Error()}, err
 		}
 		return rep, nil
 	}
@@ -53,7 +53,7 @@ func MakeGetUserEndpoint(svc pb.UserServiceServer) endpoint.Endpoint {
 		req := request.(*pb.GetUserRequest)
 		rep, err := svc.GetUser(ctx, req)
 		if err != nil {
-			return &pb.GetUserResponse{ErrMsg: err.Error()}, err
+			return &pb.GetUserResponse{Err: err.Error()}, err
 		}
 		return rep, nil
 	}

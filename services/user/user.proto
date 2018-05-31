@@ -12,7 +12,7 @@ message CreateUserRequest {
 }
 message CreateUserResponse {
   User user = 1;
-  string err_msg = 2;
+  string err = 2;
 }
 
 message GetUserRequest {
@@ -20,7 +20,7 @@ message GetUserRequest {
 }
 message GetUserResponse {
   User user = 1;
-  string err_msg = 2;
+  string err = 2;
 }
 
 message User {
