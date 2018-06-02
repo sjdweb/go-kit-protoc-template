@@ -23,7 +23,7 @@
 #   non-go = false
 #   go-tests = true
 #   unused-packages = true
-
+required = ["github.com/moul/protoc-gen-gotemplate"]
 
 [[constraint]]
   name = "github.com/go-kit/kit"
