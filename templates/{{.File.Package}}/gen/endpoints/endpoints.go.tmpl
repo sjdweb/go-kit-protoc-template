@@ -7,7 +7,7 @@ import (
 	"fmt"
 
 	oldcontext "golang.org/x/net/context"
-        pb "{{cat .GoPWD "/" .DestinationDir | nospace | clean}}/pb"
+        pb "{{cat .GoPWD "/" .DestinationDir | nospace | clean}}/pb/{{$file.Package | title | lower}}"
 	"github.com/go-kit/kit/endpoint"
 )
 

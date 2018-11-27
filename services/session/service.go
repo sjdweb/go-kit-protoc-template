@@ -5,7 +5,7 @@ import (
 
 	"golang.org/x/net/context"
 
-	pb "github.com/sjdweb/go-kit-protoc-template/services/session/gen/pb"
+	pb "github.com/sjdweb/go-kit-protoc-template/services/session/gen/pb/session"
 )
 
 type Service struct{}

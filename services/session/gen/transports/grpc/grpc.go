@@ -1,68 +1,55 @@
 package session_grpctransport
 
-
-
 import (
 	context "context"
-        "fmt"
+	"fmt"
 
-        oldcontext "golang.org/x/net/context"
 	grpctransport "github.com/go-kit/kit/transport/grpc"
+	oldcontext "golang.org/x/net/context"
 
-        pb "github.com/sjdweb/go-kit-protoc-template/services/session/gen/pb"
-        endpoints "github.com/sjdweb/go-kit-protoc-template/services/session/gen/endpoints"
+	endpoints "github.com/sjdweb/go-kit-protoc-template/services/session/gen/endpoints"
+	pb "github.com/sjdweb/go-kit-protoc-template/services/session/gen/pb/session"
 )
 
 // avoid import errors
 var _ = fmt.Errorf
 
 func MakeGRPCServer(endpoints endpoints.Endpoints) pb.SessionServiceServer {
-     	var options []grpctransport.ServerOption
-        _ = options
+	var options []grpctransport.ServerOption
+	_ = options
 	return &grpcServer{
-		
-			
-				login: grpctransport.NewServer(
-					endpoints.LoginEndpoint,
-					decodeRequest,
-					encodeLoginResponse,
-					options...,
-				),
-			
-                
+
+		login: grpctransport.NewServer(
+			endpoints.LoginEndpoint,
+			decodeRequest,
+			encodeLoginResponse,
+			options...,
+		),
 	}
 }
 
 type grpcServer struct {
-	
-		
-			login grpctransport.Handler
-		
-	
+	login grpctransport.Handler
 }
 
+func (s *grpcServer) Login(ctx oldcontext.Context, req *pb.LoginRequest) (*pb.LoginResponse, error) {
+	_, rep, err := s.login.ServeGRPC(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return rep.(*pb.LoginResponse), nil
+}
 
-	
-		func (s *grpcServer) Login(ctx oldcontext.Context, req *pb.LoginRequest) (*pb.LoginResponse, error) {
-		_, rep, err := s.login.ServeGRPC(ctx, req)
-			if err != nil {
-				return nil, err
-			}
-			return rep.(*pb.LoginResponse), nil
-		}
-
-		func encodeLoginResponse(ctx context.Context, response interface{}) (interface{}, error) {
-			resp := response.(*pb.LoginResponse)
-			return resp, nil
-		}
-	
-
+func encodeLoginResponse(ctx context.Context, response interface{}) (interface{}, error) {
+	resp := response.(*pb.LoginResponse)
+	return resp, nil
+}
 
 func decodeRequest(ctx context.Context, grpcReq interface{}) (interface{}, error) {
 	return grpcReq, nil
 }
 
-type streamHandler interface{
+type streamHandler interface {
 	Do(server interface{}, req interface{}) (err error)
 }
 

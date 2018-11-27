@@ -14,19 +14,19 @@ import (
 
 	session_svc "github.com/sjdweb/go-kit-protoc-template/services/session"
 	session_endpoints "github.com/sjdweb/go-kit-protoc-template/services/session/gen/endpoints"
-	session_pb "github.com/sjdweb/go-kit-protoc-template/services/session/gen/pb"
+	session_pb "github.com/sjdweb/go-kit-protoc-template/services/session/gen/pb/session"
 	session_grpctransport "github.com/sjdweb/go-kit-protoc-template/services/session/gen/transports/grpc"
 	session_httptransport "github.com/sjdweb/go-kit-protoc-template/services/session/gen/transports/http"
 
 	sprint_svc "github.com/sjdweb/go-kit-protoc-template/services/sprint"
 	sprint_endpoints "github.com/sjdweb/go-kit-protoc-template/services/sprint/gen/endpoints"
-	sprint_pb "github.com/sjdweb/go-kit-protoc-template/services/sprint/gen/pb"
+	sprint_pb "github.com/sjdweb/go-kit-protoc-template/services/sprint/gen/pb/sprint"
 	sprint_grpctransport "github.com/sjdweb/go-kit-protoc-template/services/sprint/gen/transports/grpc"
 	sprint_httptransport "github.com/sjdweb/go-kit-protoc-template/services/sprint/gen/transports/http"
 
 	user_svc "github.com/sjdweb/go-kit-protoc-template/services/user"
 	user_endpoints "github.com/sjdweb/go-kit-protoc-template/services/user/gen/endpoints"
-	user_pb "github.com/sjdweb/go-kit-protoc-template/services/user/gen/pb"
+	user_pb "github.com/sjdweb/go-kit-protoc-template/services/user/gen/pb/user"
 	user_grpctransport "github.com/sjdweb/go-kit-protoc-template/services/user/gen/transports/grpc"
 	user_httptransport "github.com/sjdweb/go-kit-protoc-template/services/user/gen/transports/http"
 )

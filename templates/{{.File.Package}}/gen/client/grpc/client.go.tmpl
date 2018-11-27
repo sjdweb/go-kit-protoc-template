@@ -8,7 +8,7 @@ import (
         grpctransport "github.com/go-kit/kit/transport/grpc"
         "github.com/go-kit/kit/endpoint"
 
-        pb "{{cat .GoPWD "/" .DestinationDir | nospace | clean}}/pb"
+        pb "{{cat .GoPWD "/" .DestinationDir | nospace | clean}}/pb/{{$file.Package | title | lower}}"
         endpoints "{{cat .GoPWD "/" .DestinationDir | nospace | clean}}/endpoints"
 )
 

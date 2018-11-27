@@ -1,96 +1,77 @@
 package user_grpctransport
 
-
-
 import (
 	context "context"
-        "fmt"
+	"fmt"
 
-        oldcontext "golang.org/x/net/context"
 	grpctransport "github.com/go-kit/kit/transport/grpc"
+	oldcontext "golang.org/x/net/context"
 
-        pb "github.com/sjdweb/go-kit-protoc-template/services/user/gen/pb"
-        endpoints "github.com/sjdweb/go-kit-protoc-template/services/user/gen/endpoints"
+	endpoints "github.com/sjdweb/go-kit-protoc-template/services/user/gen/endpoints"
+	pb "github.com/sjdweb/go-kit-protoc-template/services/user/gen/pb/user"
 )
 
 // avoid import errors
 var _ = fmt.Errorf
 
 func MakeGRPCServer(endpoints endpoints.Endpoints) pb.UserServiceServer {
-     	var options []grpctransport.ServerOption
-        _ = options
+	var options []grpctransport.ServerOption
+	_ = options
 	return &grpcServer{
-		
-			
-				createuser: grpctransport.NewServer(
-					endpoints.CreateUserEndpoint,
-					decodeRequest,
-					encodeCreateUserResponse,
-					options...,
-				),
-			
-                
-			
-				getuser: grpctransport.NewServer(
-					endpoints.GetUserEndpoint,
-					decodeRequest,
-					encodeGetUserResponse,
-					options...,
-				),
-			
-                
+
+		createuser: grpctransport.NewServer(
+			endpoints.CreateUserEndpoint,
+			decodeRequest,
+			encodeCreateUserResponse,
+			options...,
+		),
+
+		getuser: grpctransport.NewServer(
+			endpoints.GetUserEndpoint,
+			decodeRequest,
+			encodeGetUserResponse,
+			options...,
+		),
 	}
 }
 
 type grpcServer struct {
-	
-		
-			createuser grpctransport.Handler
-		
-	
-		
-			getuser grpctransport.Handler
-		
-	
+	createuser grpctransport.Handler
+
+	getuser grpctransport.Handler
 }
 
+func (s *grpcServer) CreateUser(ctx oldcontext.Context, req *pb.CreateUserRequest) (*pb.CreateUserResponse, error) {
+	_, rep, err := s.createuser.ServeGRPC(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return rep.(*pb.CreateUserResponse), nil
+}
 
-	
-		func (s *grpcServer) CreateUser(ctx oldcontext.Context, req *pb.CreateUserRequest) (*pb.CreateUserResponse, error) {
-		_, rep, err := s.createuser.ServeGRPC(ctx, req)
-			if err != nil {
-				return nil, err
-			}
-			return rep.(*pb.CreateUserResponse), nil
-		}
+func encodeCreateUserResponse(ctx context.Context, response interface{}) (interface{}, error) {
+	resp := response.(*pb.CreateUserResponse)
+	return resp, nil
+}
 
-		func encodeCreateUserResponse(ctx context.Context, response interface{}) (interface{}, error) {
-			resp := response.(*pb.CreateUserResponse)
-			return resp, nil
-		}
-	
+func (s *grpcServer) GetUser(ctx oldcontext.Context, req *pb.GetUserRequest) (*pb.GetUserResponse, error) {
+	_, rep, err := s.getuser.ServeGRPC(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return rep.(*pb.GetUserResponse), nil
+}
 
-	
-		func (s *grpcServer) GetUser(ctx oldcontext.Context, req *pb.GetUserRequest) (*pb.GetUserResponse, error) {
-		_, rep, err := s.getuser.ServeGRPC(ctx, req)
-			if err != nil {
-				return nil, err
-			}
-			return rep.(*pb.GetUserResponse), nil
-		}
-
-		func encodeGetUserResponse(ctx context.Context, response interface{}) (interface{}, error) {
-			resp := response.(*pb.GetUserResponse)
-			return resp, nil
-		}
-	
-
+func encodeGetUserResponse(ctx context.Context, response interface{}) (interface{}, error) {
+	resp := response.(*pb.GetUserResponse)
+	return resp, nil
+}
 
 func decodeRequest(ctx context.Context, grpcReq interface{}) (interface{}, error) {
 	return grpcReq, nil
 }
 
-type streamHandler interface{
+type streamHandler interface {
 	Do(server interface{}, req interface{}) (err error)
 }
 
